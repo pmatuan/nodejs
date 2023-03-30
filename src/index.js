@@ -1,33 +1,38 @@
 const express = require('express');
-const axios = require('axios');
+const mongoose = require('mongoose');
+const User = require('./models/user');
 require('dotenv').config();
-
-const app = express();
 const { PORT } = require('./configs');
-const timeToFetchAgain = 2; // 2 minutes
+const app = express();
 
-let userData;
-let lastFetch;
+let userList;
 
-const fetchUserData = async () => {
+// connect to MongoDB
+mongoose
+  .connect('mongodb://localhost:27017/demo', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB connected'))
+  .catch((err) => console.error(err));
+
+// get all users
+const getAllUsers = async () => {
   try {
-    const res = await axios.get('https://jsonplaceholder.typicode.com/users');
-    userData = res.data;
-    lastFetch = Date.now();
-    console.log('Data fetched successfully');
+    userList = await User.find({});
   } catch (err) {
     console.error(err);
+  } finally {
+    mongoose.connection.close();
   }
 };
 
-fetchUserData();
-
 app.get('/users/:userName', async (req, res) => {
   const name = req.params.userName;
-  if (!userData || Date.now() - lastFetch > timeToFetchAgain * 60 * 1000) {
-    await fetchUserData();
+  if (!userList){
+    await getAllUsers();
   }
-  const user = userData.find((user) =>
+  let user = userList.find((user) =>
     user.name.toLowerCase().includes(name.toLowerCase()),
   );
   if (user) {
