@@ -6,6 +6,10 @@ const { PORT } = require('./configs/index');
 
 const app = express();
 
+(async () => {
+  require('./utils/fetchUser');
+})();
+
 app.use('/users', checkUserRoute);
 
 app.listen(PORT, () => {

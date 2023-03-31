@@ -1,10 +1,8 @@
-const mongoose = require('mongoose');
-const axios = require('axios');
 require('dotenv').config();
-require('./models');
+require('../models');
 
-// create a model based on the schema
-const Data = require('./models/user');
+const axios = require('axios');
+const Data = require('../models/user');
 
 // fetch data from API and save to MongoDB
 const fetchData = async () => {
@@ -55,7 +53,6 @@ const fetchData = async () => {
 
     await Promise.all(promises);
     console.log('All data saved to MongoDB');
-    mongoose.connection.close();
   } catch (err) {
     console.log(err);
   }
