@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
 const axios = require('axios');
-
-// connect to MongoDB
-mongoose
-  .connect('mongodb://localhost:27017/demo', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.log(err));
+require('dotenv').config();
+require('./models');
 
 // create a model based on the schema
-const Data = require('./models/user')
+const Data = require('./models/user');
 
 // fetch data from API and save to MongoDB
 const fetchData = async () => {

@@ -3,19 +3,11 @@ const mongoose = require('mongoose');
 const User = require('./models/user');
 const Log = require('./models/log');
 require('dotenv').config();
-const { PORT } = require('./configs');
+require('./models');
+const { PORT } = require('./configs/index');
 const app = express();
 
 let userList;
-
-// connect to MongoDB
-mongoose
-  .connect('mongodb://localhost:27017/demo', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch((err) => console.error(err));
 
 // get all users
 const getAllUsers = async () => {
