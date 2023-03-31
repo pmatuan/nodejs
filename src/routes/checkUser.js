@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAllUsers } = require('../utils/getAllUsers');
-const { logResponse } = require('../utils/logRespone');
+const { logResponse } = require('../daos/logRespone');
 
 let userList;
 

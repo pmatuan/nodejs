@@ -1,5 +1,4 @@
 const express = require('express');
-const checkUserRoute = require('./routes/checkUser');
 require('dotenv').config();
 require('./models');
 const { PORT } = require('./configs/index');
@@ -7,10 +6,10 @@ const { PORT } = require('./configs/index');
 const app = express();
 
 (async () => {
-  require('./utils/fetchUser');
+  require('./test/fetchUser');
 })();
 
-app.use('/users', checkUserRoute);
+require('./routes')(app);
 
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
